@@ -6,17 +6,7 @@ p1 = async () => {
  
         const races = parseData(data);
  
-        let result = races.map(x => {
-            let winners = 0;
-            for (let i = 0; i < x[0]; i++) {
-                let distance = i * (x[0] - i)
- 
-                if (distance > x[1]) 
-                    winners++
-            }
- 
-            return winners;
-        }).reduce((p, c) => p * c, 1);
+        let result = determineWinningInputs(races).reduce((p, c) => p * c, 1);
  
         console.log("Part 1", result);
     });
@@ -29,19 +19,8 @@ p2 = async () => {
         const time = parseInt(data[0].split(': ')[1].replaceAll(' ', ''))
         const distance = parseInt(data[1].split(': ')[1].replaceAll(' ', ''))
  
-        let result = [[time, distance]].map(x => {
-            let winners = 0;
-            for (let i = 0; i < x[0]; i++) {
-                let distance = i * (x[0] - i)
- 
-                if (distance > x[1]) 
-                    winners++
-            }
- 
-            return winners;
-        }).reduce((p, c) => p * c, 1);
- 
- 
+        let result = determineWinningInputs([[time, distance]]).reduce((p, c) => p * c, 1);
+
         console.log("Part 2", result);
     });
 };
@@ -56,6 +35,21 @@ parseData = (data) => {
 }
  
 zip = (a, b) => a.map((k, i) => [k, b[i]]);
+
+determineWinningInputs = (races) => {
+    // TODO: break early if starts failing
+    return races.map(x => {
+        let winners = 0;
+        for (let i = 0; i < x[0]; i++) {
+            let distance = i * (x[0] - i)
+
+            if (distance > x[1]) 
+                winners++
+        }
+
+        return winners;
+    });
+}
  
 main = async () => {
     await p1();
