@@ -4,27 +4,16 @@ p1 = async () => {
     await fs.readFile('./5_input.txt', 'utf8', (err, data) => {
         data = data.replaceAll('\r', '').split('\n').filter(x => x !== '');
  
-        let seeds = [];
-        let seedToSoil = [];
-        let soilToFertilizer = [];
-        let fertilizerToWater = [];
-        let waterToLight = [];
-        let lightToTemperature = [];
-        let temperatureToHumidity = [];
-        let humidityToLocation = [];
+        const parsed = parseData(data);
  
-        parseData(data, seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
- 
-        console.log(seeds)
- 
-        const result = seeds.map(x => determineMapping(x, seedToSoil))
-                            .map(x => determineMapping(x, soilToFertilizer))
-                            .map(x => determineMapping(x, fertilizerToWater))
-                            .map(x => determineMapping(x, waterToLight))
-                            .map(x => determineMapping(x, lightToTemperature))
-                            .map(x => determineMapping(x, temperatureToHumidity))
-                            .map(x => determineMapping(x, humidityToLocation))
-                            .sort((a, b) => a - b)[0];
+        const result = parsed.seeds.map(x => determineMapping(x, parsed.seedToSoil))
+                                   .map(x => determineMapping(x, parsed.soilToFertilizer))
+                                   .map(x => determineMapping(x, parsed.fertilizerToWater))
+                                   .map(x => determineMapping(x, parsed.waterToLight))
+                                   .map(x => determineMapping(x, parsed.lightToTemperature))
+                                   .map(x => determineMapping(x, parsed.temperatureToHumidity))
+                                   .map(x => determineMapping(x, parsed.humidityToLocation))
+                                   .sort((a, b) => a - b)[0];
  
         console.log("Part 1", result);
     });
@@ -34,42 +23,33 @@ p2 = async () => {
     await fs.readFile('./5_input.txt', 'utf8', (err, data) => {
         data = data.replaceAll('\r', '').split('\n').filter(x => x !== '');
  
-        let seeds = [];
-        let seedToSoil = [];
-        let soilToFertilizer = [];
-        let fertilizerToWater = [];
-        let waterToLight = [];
-        let lightToTemperature = [];
-        let temperatureToHumidity = [];
-        let humidityToLocation = [];
+        const parsed = parseData(data);
  
-        parseData(data, seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation);
+        console.log(parsed.seeds[0], parsed.seeds[1])
+        console.log(parsed.seedToSoil.sort((a, b) => a[1] - b[1]))
+
+        console.log(parsed.seedToSoil.sort((a, b) => a[1] - b[1]).map(x => [x[0], x[1], x[2], x[1] + x[2] - 1]))
+
+        console.log(parsed.seedToSoil.sort((a, b) => a[1] - b[1])
+                              .filter(x => determineRangeOverlap([parsed.seeds[0], parsed.seeds[0] + parsed.seeds[1] - 1], [x[1], x[1] + x[2] - 1])))
  
-        const seedIterator = [...seeds];
-        let minimum = null;
-        for (let i = 0; i < seedIterator.length; i++) {
-            if (i % 2 === 1)
-                continue
- 
-            for (let j = 0; j < seedIterator[i + 1]; j++) {
-                let location = [seedIterator[i] + j].map(x => determineMapping(x, seedToSoil))
-                .map(x => determineMapping(x, soilToFertilizer))
-                .map(x => determineMapping(x, fertilizerToWater))
-                .map(x => determineMapping(x, waterToLight))
-                .map(x => determineMapping(x, lightToTemperature))
-                .map(x => determineMapping(x, temperatureToHumidity))
-                .map(x => determineMapping(x, humidityToLocation))[0];
- 
-                minimum = minimum ? Math.min(minimum, location) : location;
-            }
-        }
- 
-        console.log("Part 2", minimum);
+        console.log("Part 2", null);
     });
 };
  
-parseData = (data, seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation) => {
-    seeds = seeds.push(...data[0].split(': ')[1].split(' ').map(x => parseInt(x)));
+parseData = (data) => {
+    let parsed = {
+        seeds: [],
+        seedToSoil: [],
+        soilToFertilizer: [],
+        fertilizerToWater: [],
+        waterToLight: [],
+        lightToTemperature: [],
+        temperatureToHumidity: [],
+        humidityToLocation: [],
+    }
+
+    parsed.seeds.push(...data[0].split(': ')[1].split(' ').map(x => parseInt(x)));
  
     let lastMap = '';
     for (let i = 1; i < data.length; i++) {
@@ -80,30 +60,33 @@ parseData = (data, seeds, seedToSoil, soilToFertilizer, fertilizerToWater, water
  
         let arr = [];
         switch (lastMap) {
-            case 'seed-to-soil map:': arr = seedToSoil; break;
-            case 'soil-to-fertilizer map:': arr = soilToFertilizer; break;
-            case 'fertilizer-to-water map:': arr = fertilizerToWater; break;
-            case 'water-to-light map:': arr = waterToLight; break;
-            case 'light-to-temperature map:': arr = lightToTemperature; break;
-            case 'temperature-to-humidity map:': arr = temperatureToHumidity; break;
-            case 'humidity-to-location map:': arr = humidityToLocation; break;
+            case 'seed-to-soil map:': arr = parsed.seedToSoil; break;
+            case 'soil-to-fertilizer map:': arr = parsed.soilToFertilizer; break;
+            case 'fertilizer-to-water map:': arr = parsed.fertilizerToWater; break;
+            case 'water-to-light map:': arr = parsed.waterToLight; break;
+            case 'light-to-temperature map:': arr = parsed.lightToTemperature; break;
+            case 'temperature-to-humidity map:': arr = parsed.temperatureToHumidity; break;
+            case 'humidity-to-location map:': arr = parsed.humidityToLocation; break;
         }
  
-        arr.push(data[i].split(' ').map(x => parseInt(x)))
+        var tmp = data[i].split(' ').map(x => parseInt(x))
+        arr.push([tmp[0], tmp[1], tmp[1] + tmp[2] - 1])
     }
     lastMap = '';
+
+    return parsed;
 }
  
 determineMapping = (number, map) => {
-    let match = map.filter(x => number >= x[1] && number <= x[1] + x[2] - 1)[0];
+    let match = map.filter(x => number >= x[1] && number <= x[2])[0];
  
     if (!match) 
         return number;
     return match[0] + number - match[1];
 }
  
-determineMappingRange = (range, map) => {
- 
+determineRangeOverlap = (range1, range2) => {
+    return !(range1[1] < range2[0] || range2[1] < range1[0])
 }
  
 main = async () => {
