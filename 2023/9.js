@@ -10,7 +10,7 @@ p1 = async () => {
                            .map(generateNextValue)
                            .reduce((p, c) => p + c, 0)
 
-        console.log("Part 1", JSON.stringify(result, null, 2));
+        console.log("Part 1", result);
     });
 };
 
@@ -48,7 +48,7 @@ generateNextValue = (differences) => {
 }
 
 generatePreviousValue = (differences) => {
-    return differences.reduce((p, c) => c[0] - p, 0)
+    return differences.reverse().reduce((p, c) => c[0] - p, 0)
 }
 
 main = async () => {
