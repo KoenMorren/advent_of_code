@@ -1,29 +1,33 @@
 const fs = require('fs');
 
-main = () => {
-    fs.readFile('./1_input.txt', 'utf8', (err, data) => {
-        var mvmts = [...data];
+p1 = (data) => {
+    const up = data.split('').filter(x => x == '(').length;
+    const down = data.length - up;
 
-        // part 1
-        var up = mvmts.filter(x => x == '(').length;
-        var down = mvmts.length - up;
-        console.log("Part 1", up - down);
+    return up - down;
+}
 
-        // part 2
-        var start = 0;
+p2 = (data) => {
+    const mvmts = data.split('');
+    let start = 0;
     
-        for (var i = 1; i <= mvmts.length; i++)
-        {
-            if (mvmts[i] == '(') 
-                start += 1;
-            else 
-                start -= 1;
-    
-            if (start < 0) break;
-        }
-    
-        console.log("Part 2", i);
-    });
-};
+    for (var i = 0; i < mvmts.length; i++) {
+        if (mvmts[i] === '(') 
+            start += 1;
+        else 
+            start -= 1;
+
+        if (start < 0) break;
+    }
+
+    return i + 1;
+}
+
+main = async () => {
+    await fs.readFile('./2015_1.txt', 'utf8', (err, data) => {
+        console.log('Part 1:', p1(data));
+        console.log('Part 2:', p2(data));
+    })
+}
 
 main();
