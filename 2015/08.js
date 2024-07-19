@@ -33,7 +33,7 @@ main = async () => {
         };
     };
 
-    await fs.readFile('./8.txt', 'utf8', async (err, data) => {
+    await fs.readFile('./08.txt', 'utf8', async (err, data) => {
         data = parse(data)
 
         console.log('part 1:', p1(structuredClone(data)));

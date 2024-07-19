@@ -32,7 +32,7 @@ p2 = (presents) => {
 }
 
 main = () => {
-    fs.readFile('./2_input.txt', 'utf8', (err, data) => {
+    fs.readFile('./02.txt', 'utf8', (err, data) => {
         var presents = structuredClone(data.split(';'));
 
         console.log('part 1:', p1(presents))

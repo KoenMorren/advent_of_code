@@ -21,7 +21,7 @@ p2 = (data) => {
 }
 
 main = async () => {
-    await fs.readFile('./5.txt', 'utf8', async (err, data) => {
+    await fs.readFile('./05.txt', 'utf8', async (err, data) => {
         data = data.split('\r\n');
 
         console.log('Part 1:', p1(data));

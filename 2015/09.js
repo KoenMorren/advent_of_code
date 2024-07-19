@@ -54,7 +54,7 @@ main = async () => {
         };
     };
     
-    await fs.readFile('./9.txt', 'utf8', async (err, data) => {
+    await fs.readFile('./09.txt', 'utf8', async (err, data) => {
         data = buildGraph(data)
 
         console.log('part 1:', p1(structuredClone(data)));

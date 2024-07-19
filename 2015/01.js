@@ -24,7 +24,7 @@ p2 = (data) => {
 }
 
 main = async () => {
-    await fs.readFile('./2015_1.txt', 'utf8', (err, data) => {
+    await fs.readFile('./01.txt', 'utf8', (err, data) => {
         console.log('Part 1:', p1(data));
         console.log('Part 2:', p2(data));
     })
