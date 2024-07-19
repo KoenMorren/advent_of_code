@@ -1,30 +1,42 @@
 const fs = require('fs');
 
+p1 = (presents) => {
+    var totalArea = 0;
+
+    presents.forEach(x => {
+        var [l, w, h] = x.split('x');
+        
+        var area = [
+            l*w,
+            w*h,
+            h*l
+        ]
+        totalArea += area.reduce((prev, curr) => {
+            return prev +  2 * curr;
+        }, 0) + Math.min(...area)
+    });
+
+    return totalArea
+}
+
+p2 = (presents) => {
+    var total = 0;
+
+    presents.forEach(x => {
+        var dimensions = x.split('x').map(x => parseInt(x)).sort((a, b) => a - b)
+
+        total += dimensions[0] * 2 + dimensions[1] * 2 + (dimensions[0] * dimensions[1] * dimensions[2]);
+    });
+
+    return total
+}
+
 main = () => {
     fs.readFile('./2_input.txt', 'utf8', (err, data) => {
-        data = '1x1x10';
+        var presents = structuredClone(data.split(';'));
 
-        var presents = data.split(';');
-
-        var totalArea = 0;
-
-        presents.forEach(x => {
-            var [l, w, h] = x.split('x');
-            
-            var area = [
-                l*w,
-                w*h,
-                h*l
-            ]
-            area.sort();
-            // console.log(area, area.reduce((prev, curr) => prev +  2 * curr))
-            totalArea += area.reduce((prev, curr) => {
-                // console.log(prev,curr)
-                return prev +  2 * curr;
-            }, 0) + area[0]
-        });
-
-        console.log("Part 1", totalArea);
+        console.log('part 1:', p1(presents))
+        console.log('part 2:', p2(presents))
     });
 };
 
