@@ -9,7 +9,33 @@ p1 = (data) => {
 }
 
 p2 = (data) => {
-    return null
+    let obj = JSON.parse(data);
+
+    return reduceObject(obj)
+}
+
+reduceObject = (object) => {
+    if (typeof(object) === 'string') return 0;
+    if (typeof(object) === 'number') return object;
+
+    let total = 0;
+
+    if (Array.isArray(object)) {
+        for (let i = 0; i < object.length; i++) {
+            total += reduceObject(object[i])
+        }
+    }
+    else {
+        if (Object.values(object).filter(x => typeof(x) === 'string' && x.toLowerCase() === 'red').length >= 1)
+            return 0;
+        
+        let keys = Object.keys(object);
+        for (let i = 0; i < keys.length; i++) {
+            total += reduceObject(object[keys[i]])
+        }
+    }
+
+    return total;    
 }
 
 main = async () => {
