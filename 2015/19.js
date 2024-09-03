@@ -1,15 +1,6 @@
 const fs = require('fs');
 
 p1 = (data) => {
-    // data = {
-    //     molecule: 'H2O',
-    //     dict: {
-    //         'H': [
-    //             'OO',
-    //         ],
-    //     }
-    // }
-
     let transformed = new Set();
 
     Object.keys(data.dict).forEach(x => {
@@ -27,7 +18,19 @@ p1 = (data) => {
 }
 
 p2 = (data) => {
-    return null
+    // This is some very arcane shit that I do not comprehend
+    // https://www.reddit.com/r/adventofcode/comments/3xflz8/comment/cy4h7ji/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+    let isUpper = (x) => x === x.toUpperCase();
+    let helper = (x) => {
+        let c = 0;
+
+        for (let i = data.molecule.indexOf(x); i >= 0; i = data.molecule.indexOf(x, i + 1), ++c) {}
+
+        return c;
+    }
+
+    return data.molecule.split('').filter(x => isUpper(x)).length - helper("Rn") - helper("Ar") - (2 * helper('Y')) - 1
 }
 
 parseData = (data) => {
