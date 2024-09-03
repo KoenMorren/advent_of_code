@@ -1,28 +1,28 @@
 const fs = require('fs');
 
-p1 = async () => {
-    await fs.readFile('./1_input.txt', 'utf8', (err, data) => {
-        data = data.split('\n');
+p1 = () => {
 
 
-
-        console.log("Part 1", null);
-    });
+    return null
 };
 
-p2 = async () => {
-    await fs.readFile('./1_input.txt', 'utf8', (err, data) => {
-        data = data.split('\n');
+p2 = () => {
 
 
-        
-        console.log("Part 2", null);
-    });
-};
+    return null
+}
+
+parse = (data) => {
+    return data;
+}
 
 main = async () => {
-    await p1();
-    await p2();
+    await fs.readFile('./{{DAY}}.txt', 'utf8', async (err, data) => {
+        data = parse(data)
+
+        console.log('part 1:', p1(structuredClone(data)));
+        console.log('part 2:', p2(structuredClone(data)));
+    });
 }
 
 main();
