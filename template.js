@@ -1,12 +1,12 @@
 const fs = require('fs');
 
-p1 = () => {
+p1 = (data) => {
 
 
     return null
 };
 
-p2 = () => {
+p2 = (data) => {
 
 
     return null
