@@ -138,8 +138,16 @@ main = () => {
     const boss = new fighter('boss', 55, 8, 0, 0, []);
     const player = new fighter('player', 50, 0, 0, 500, []);
 
-    console.log('part 1:', p1(player.clone(), boss.clone()));
-    console.log('part 2:', p2(player.clone(), boss.clone()));
+    console.log('part 1:', measure(() => p1(player.clone(), boss.clone())))
+    console.log('part 2:', measure(() => p2(player.clone(), boss.clone())))
+}
+
+measure = (fn) => {
+    const start = performance.now();
+    let result = fn();
+    const end = performance.now();
+
+    return `${result} (${Math.round((end - start) * 10000) / 10000} ms)`;
 }
 
 main();

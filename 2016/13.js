@@ -119,8 +119,16 @@ main = () => {
         }
     }
 
-    console.log('part 1:', p1());
-    console.log('part 2:', p2());
+    console.log('part 1:', measure(() => p1()))
+    console.log('part 2:', measure(() => p2()))
+}
+
+measure = (fn) => {
+    const start = performance.now();
+    let result = fn();
+    const end = performance.now();
+
+    return `${result} (${Math.round((end - start) * 10000) / 10000} ms)`;
 }
 
 main();

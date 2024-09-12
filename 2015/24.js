@@ -114,9 +114,17 @@ main = async () => {
                    .reverse()
                    .map(x => parseInt(x));
 
-        console.log('part 1:', p1(structuredClone(data)));
-        console.log('part 2:', p2(structuredClone(data)));
+        console.log('part 1:', measure(() => p1(structuredClone(data))))
+        console.log('part 2:', measure(() => p2(structuredClone(data))))
     });
+}
+
+measure = (fn) => {
+    const start = performance.now();
+    let result = fn();
+    const end = performance.now();
+
+    return `${result} (${Math.round((end - start) * 10000) / 10000} ms)`;
 }
 
 main()

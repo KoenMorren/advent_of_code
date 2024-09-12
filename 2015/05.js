@@ -24,9 +24,17 @@ main = async () => {
     await fs.readFile('./05.txt', 'utf8', async (err, data) => {
         data = data.split('\r\n');
 
-        console.log('Part 1:', p1(data));
-        console.log('Part 2:', p2(data));
+        console.log('part 1:', measure(() => p1(data)))
+        console.log('part 2:', measure(() => p2(data)))
     })
+}
+
+measure = (fn) => {
+    const start = performance.now();
+    let result = fn();
+    const end = performance.now();
+
+    return `${result} (${Math.round((end - start) * 10000) / 10000} ms)`;
 }
 
 main();

@@ -89,9 +89,17 @@ main = async () => {
     await fs.readFile('./15.txt', 'utf8', async (err, data) => {
         data = parseData(data)
 
-        console.log('part 1:', p1(structuredClone(data))); // 18965440
-        console.log('part 2:', p2(structuredClone(data))); // 15862900
+        console.log('part 1:', measure(() => p1(structuredClone(data)))) // 18965440
+        console.log('part 2:', measure(() => p2(structuredClone(data)))) // 15862900
     });
+}
+
+measure = (fn) => {
+    const start = performance.now();
+    let result = fn();
+    const end = performance.now();
+
+    return `${result} (${Math.round((end - start) * 10000) / 10000} ms)`;
 }
 
 main();
