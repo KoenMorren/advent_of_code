@@ -33,13 +33,27 @@ main = () => {
         fs.writeFile(path.join(__dirname, year, `${day}.js`), result, 'utf8', function (err) {
            if (err) return console.log(err);
         })
-      })
+    })
 
-    fs.writeFile(
-        path.join(__dirname, year, `${day}.txt`),
-        '',
-        err => {}
-    )
+    fs.readFile(path.join(__dirname, 'cookie.txt'), 'utf8', function(err, data) {
+        if (err) {
+            return;
+        }
+
+        fetch(`https://adventofcode.com/${year}/day/${day}/input`, {
+            headers: {
+                "Cookie": data
+            }
+        })
+        .then(res => res.text())
+        .then(val => {
+            fs.writeFile(
+                path.join(__dirname, year, `${day}.txt`),
+                val,
+                err => {}
+            )
+        })
+    })
 }
 
 main();
