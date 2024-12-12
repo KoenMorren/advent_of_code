@@ -40,7 +40,7 @@ main = () => {
             return;
         }
 
-        fetch(`https://adventofcode.com/${year}/day/${day}/input`, {
+        fetch(`https://adventofcode.com/${year}/day/${parseInt(day)}/input`, {
             headers: {
                 "Cookie": data
             }
@@ -49,7 +49,7 @@ main = () => {
         .then(val => {
             fs.writeFile(
                 path.join(__dirname, year, `${day}.txt`),
-                val,
+                val.substring(0, val.length - 1), // REMOVE TRAILING LINE ENDING
                 err => {}
             )
         })
