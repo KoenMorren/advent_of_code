@@ -13,7 +13,7 @@ p2 = (data) => {
 }
 
 parse = (data) => {
-    return data.split('\r\n');
+    return data.split(/[\r\n]+/)
 }
 
 main = async () => {
